@@ -1,0 +1,9 @@
+# Claude files
+.claude
+
+# Dataset
+dataset
+
+# MacOS files
+.DS_Store
+
