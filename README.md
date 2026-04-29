@@ -16,6 +16,29 @@ A multimodal breast cancer classification system that fuses ultrasound imaging w
 
 ---
 
+## Datasets
+
+This project combines three datasets covering 780 breast cancer patients.
+
+### Dataset 1 — Breast Ultrasound Images (BUSI)
+Ultrasound images with pixel-level segmentation masks collected in 2018 from female patients aged 25–75. Images are PNG format, average size ~500×500px.
+
+- 437 benign, 210 malignant, 133 normal cases
+- Each case includes an image and a binary segmentation mask (ROI)
+- **Source:** [Breast Ultrasound Images Dataset — Kaggle](https://www.kaggle.com/datasets/aryashah2k/breast-ultrasound-images-dataset)
+- **Paper:** [Dataset of Breast Ultrasound Images — PubMed](https://pubmed.ncbi.nlm.nih.gov/31867417/)
+
+### Dataset 2 & 3 — METABRIC Clinical & Molecular Data
+The Molecular Taxonomy of Breast Cancer International Consortium (METABRIC) database provides clinical history and molecular biomarker profiles for the same 780 patients.
+
+- **Dataset 2** (25 features): age, tumor size, tumor stage, ER/HER2 status, survival months, Nottingham prognostic index, hormone therapy, and more.
+- **Dataset 3** (10 features): Pam50 subtype, integrative cluster, cellularity, chemotherapy, PR status, and more.
+- **Source:** [Breast Cancer Gene Expression Profiles (METABRIC) — Kaggle](https://www.kaggle.com/datasets/raghadalharbi/breast-cancer-gene-expression-profiles-metabric)
+
+> **Note:** The two tabular datasets are merged on `Patient ID` before preprocessing.
+
+---
+
 ## Repository Structure
 
 ```
