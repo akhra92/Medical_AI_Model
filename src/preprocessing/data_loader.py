@@ -160,10 +160,10 @@ def get_fold_loaders(
     fold_idx: int,
     mode: str = "multimodal",
     use_mask: bool = True,
-) -> tuple[DataLoader, DataLoader]:
+) -> tuple[DataLoader, DataLoader, TabularPreprocessor]:
     """
     For a given fold, refit tabular preprocessor on train split only,
-    return (train_loader, val_loader).
+    return (train_loader, val_loader, preprocessor).
     """
     train_val_ids = data["train_val_ids"]
     train_val_labels = data["train_val_labels"]

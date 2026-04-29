@@ -228,8 +228,8 @@ class Trainer:
 
         with torch.no_grad():
             for batch in tqdm(loader, desc="Inference"):
-                _, preds, labels = self._forward_batch_eval(batch)
-                logits = self._get_logits(batch)
+                logits, labels = self._get_logits(batch, return_labels=True)
+                preds = logits.argmax(dim=1)
                 probas = torch.softmax(logits, dim=1).cpu().numpy()
                 all_labels.extend(labels.cpu().numpy())
                 all_preds.extend(preds.cpu().numpy())
@@ -263,13 +263,16 @@ class Trainer:
         preds = logits.argmax(dim=1)
         return loss, preds, labels
 
-    def _get_logits(self, batch) -> torch.Tensor:
+    def _get_logits(self, batch, return_labels: bool = False):
         if self.mode == "multimodal":
-            images, tabular, _ = batch
-            return self.model(images.to(self.device), tabular.to(self.device))
+            images, tabular, labels = batch
+            logits = self.model(images.to(self.device), tabular.to(self.device))
         elif self.mode == "image":
-            images, _ = batch
-            return self.model(images.to(self.device))
+            images, labels = batch
+            logits = self.model(images.to(self.device))
         else:
-            tabular, _ = batch
-            return self.model(tabular.to(self.device))
+            tabular, labels = batch
+            logits = self.model(tabular.to(self.device))
+        if return_labels:
+            return logits, labels.to(self.device)
+        return logits
