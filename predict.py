@@ -101,7 +101,7 @@ def main():
 
     def get_tabular_tensor(patient_id):
         if preprocessor is None or patient_id is None:
-            return torch.zeros(1, 1)
+            return torch.zeros(1, tabular_input_dim)
         df = load_tabular_data()
         row = df[df["Patient ID"] == patient_id]
         if row.empty:
@@ -124,8 +124,9 @@ def main():
     elif args.image_dir:
         # Batch prediction
         print(f"\nBatch prediction from: {args.image_dir}")
-        print(f"{'Patient ID':<15} {'Prediction':<12} {'Benign':>8} {'Malignant':>10} {'Normal':>8}")
-        print("─" * 55)
+        header = f"{'Patient ID':<15} {'Prediction':<12} " + " ".join(f"{c:>10}" for c in CLASSES)
+        print(header)
+        print("─" * len(header))
         for fname in sorted(os.listdir(args.image_dir)):
             if not fname.endswith(".png"):
                 continue
@@ -137,7 +138,8 @@ def main():
             except ValueError:
                 tab_tensor = torch.zeros(1, tabular_input_dim)
             cls_name, proba = predict_single(model, img_tensor, tab_tensor, args.mode, device)
-            print(f"  {pid:<13} {cls_name:<12} {proba[0]:>8.4f} {proba[1]:>10.4f} {proba[2]:>8.4f}")
+            proba_str = " ".join(f"{p:>10.4f}" for p in proba)
+            print(f"  {pid:<13} {cls_name:<12} {proba_str}")
     else:
         print("Provide --image or --image-dir. See --help for usage.")
 
