@@ -14,6 +14,7 @@ import os
 import sys
 
 import numpy as np
+import pandas as pd
 import torch
 
 from src.config import N_FOLDS, SEED, RESULTS_DIR, CHECKPOINT_DIR
@@ -135,7 +136,6 @@ def main():
     )
 
     # Save test metrics
-    import pandas as pd
     pd.DataFrame([test_metrics]).to_csv(
         os.path.join(RESULTS_DIR, f"test_metrics_{mode}.csv"), index=False
     )

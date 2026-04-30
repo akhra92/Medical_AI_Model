@@ -11,6 +11,7 @@ Computes:
 
 import os
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import (
@@ -166,7 +167,6 @@ def plot_training_history(history: dict, fold: int = 0, mode: str = "", save_pat
 
 def save_fold_summary(all_fold_metrics: list, mode: str):
     """Print and save a summary table across all folds."""
-    import pandas as pd
     df = pd.DataFrame(all_fold_metrics)
     df.index = [f"Fold {i}" for i in range(len(df))]
     mean_row = df.mean().rename("Mean")

@@ -10,6 +10,7 @@ Usage:
 import argparse
 import os
 import numpy as np
+import pandas as pd
 import torch
 
 from src.config import CHECKPOINT_DIR, RESULTS_DIR, SEED
@@ -72,7 +73,6 @@ def main():
         title=f"ROC — {mode}",
     )
 
-    import pandas as pd
     pd.DataFrame([metrics]).to_csv(
         os.path.join(RESULTS_DIR, f"eval_metrics_{mode}_fold{args.fold}.csv"), index=False
     )
