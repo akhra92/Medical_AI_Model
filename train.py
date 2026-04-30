@@ -73,6 +73,7 @@ def main():
 
     all_fold_metrics = []
     fold_trainers = []
+    fold_preprocessors = []
 
     # ── 2. Cross-validation ────────────────────────────────────────────────────
     for fold in range(args.folds):
@@ -95,6 +96,7 @@ def main():
         print_metrics(metrics, label=f"Fold {fold+1} Validation")
         all_fold_metrics.append(metrics)
         fold_trainers.append(trainer)
+        fold_preprocessors.append(preprocessor)
 
         # ── Plots ──────────────────────────────────────────────────────────
         plot_training_history(
@@ -115,7 +117,7 @@ def main():
     print(f"\nBest fold: {best_fold + 1} — evaluating on held-out test set...")
 
     test_loader = get_test_loader(
-        data, preprocessor=data["full_preprocessor"], mode=mode, use_mask=use_mask
+        data, preprocessor=fold_preprocessors[best_fold], mode=mode, use_mask=use_mask
     )
     y_true, y_pred, y_proba = fold_trainers[best_fold].predict(test_loader)
     test_metrics = compute_metrics(y_true, y_pred, y_proba)

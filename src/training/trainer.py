@@ -241,28 +241,6 @@ class Trainer:
             np.array(all_probas),
         )
 
-    def _forward_batch_eval(self, batch):
-        """Like _forward_batch but no loss computation."""
-        if self.mode == "multimodal":
-            images, tabular, labels = batch
-            images = images.to(self.device)
-            tabular = tabular.to(self.device)
-            labels = labels.to(self.device)
-            logits = self.model(images, tabular)
-        elif self.mode == "image":
-            images, labels = batch
-            images = images.to(self.device)
-            labels = labels.to(self.device)
-            logits = self.model(images)
-        else:
-            tabular, labels = batch
-            tabular = tabular.to(self.device)
-            labels = labels.to(self.device)
-            logits = self.model(tabular)
-        loss = self.criterion(logits, labels)
-        preds = logits.argmax(dim=1)
-        return loss, preds, labels
-
     def _get_logits(self, batch, return_labels: bool = False):
         if self.mode == "multimodal":
             images, tabular, labels = batch
