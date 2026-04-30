@@ -90,7 +90,6 @@ def main():
                 subsample=0.8, colsample_bytree=0.8,
                 use_label_encoder=False, eval_metric="mlogloss",
                 random_state=SEED, n_jobs=-1,
-                scale_pos_weight=1,
             ),
         ),
     ]
