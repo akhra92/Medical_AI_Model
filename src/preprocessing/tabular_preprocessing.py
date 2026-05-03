@@ -43,12 +43,12 @@ def load_tabular_data() -> pd.DataFrame:
 
 
 def _identify_categorical_cols(df: pd.DataFrame, numeric_cols: list, drop_cols: list) -> list:
-    """Return column names that are object/category dtype and not dropped."""
+    """Return column names that are non-numeric and not dropped."""
     cat_cols = []
     for col in df.columns:
         if col in drop_cols:
             continue
-        if col not in numeric_cols and df[col].dtype == object:
+        if col not in numeric_cols and not pd.api.types.is_numeric_dtype(df[col]):
             cat_cols.append(col)
     return cat_cols
 
