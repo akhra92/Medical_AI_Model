@@ -62,15 +62,20 @@ def plot_sample_images(n_per_class: int = 3):
 
         for col, fname in enumerate(files):
             img = np.array(Image.open(os.path.join(img_dir, fname)).convert("RGB"))
-            axes[row, col * 2].imshow(img)
-            axes[row, col * 2].axis("off")
+            ax_img = axes[row, col * 2]
+            ax_img.imshow(img)
+            ax_img.axis("off")
+            # Use text() instead of set_ylabel so it shows with axis("off")
             if col == 0:
-                axes[row, col * 2].set_ylabel(cls, fontsize=12, rotation=0,
-                                               labelpad=50, va="center")
+                ax_img.text(-0.15, 0.5, cls, transform=ax_img.transAxes,
+                            fontsize=12, va="center", ha="right", fontweight="bold")
 
             mask_path = os.path.join(mask_dir, fname)
             if os.path.exists(mask_path):
-                mask = np.array(Image.open(mask_path).convert("L"))
+                mask_pil = Image.open(mask_path).convert("L")
+                if mask_pil.size != (img.shape[1], img.shape[0]):
+                    mask_pil = mask_pil.resize((img.shape[1], img.shape[0]), Image.NEAREST)
+                mask = np.array(mask_pil)
                 overlay = img.copy()
                 overlay[mask > 0] = [255, 0, 0]
                 axes[row, col * 2 + 1].imshow(overlay)
@@ -78,8 +83,10 @@ def plot_sample_images(n_per_class: int = 3):
                 axes[row, col * 2 + 1].imshow(np.zeros_like(img))
             axes[row, col * 2 + 1].axis("off")
 
-    axes[0, 0].set_title("Image", fontsize=10)
-    axes[0, 1].set_title("Mask overlay", fontsize=10)
+    # Title each pair of columns, not just the first
+    for col in range(n_per_class):
+        axes[0, col * 2].set_title("Image", fontsize=10)
+        axes[0, col * 2 + 1].set_title("Mask overlay", fontsize=10)
     plt.suptitle("Sample Images per Class (red = mask ROI)", y=1.01)
     plt.tight_layout()
     plt.savefig(os.path.join(EDA_DIR, "sample_images.png"), dpi=150, bbox_inches="tight")
