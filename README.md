@@ -226,9 +226,21 @@ Trains Logistic Regression, Random Forest (300 trees), and XGBoost (300 trees, `
 
 ## Results
 
+### Exploratory Data Analysis
+
+*Class Distributions.*
+
+![Class Distribution Visualization](results/eda/class_distribution.png)
+
+*Sample Images.*
+
+![Sample Images](results/eda/sample_images.png)
+
+---
+
 ### Learning Curves
 
-*Training and validation loss/accuracy curves per fold will be added here after training.*
+*Training and validation loss/accuracy curves per fold.*
 
 <!-- Example:
 ![Learning Curves Fold 1](results/history_fold1_multimodal.png)
