@@ -167,10 +167,15 @@ python train.py --mode multimodal --folds 5        # Number of CV folds
 ```
 
 **Outputs saved to `results/` and `checkpoints/`:**
-- `best_fold{0-4}_{mode}.pt` — Best checkpoint per fold
-- `fold_summary_{mode}.csv` — Cross-validation metrics
-- `cm_fold{1-5}_{mode}.png` — Per-fold confusion matrices
-- `history_fold{1-5}_{mode}.png` — Training/validation loss curves
+- `checkpoints/best_fold{0-4}_{mode}.pt` — Best checkpoint per fold
+- `results/fold_summary_{mode}.csv` — Cross-validation metrics summary
+- `results/test_metrics_{mode}.csv` — Final test set metrics
+- `results/cm_fold{1-5}_{mode}.png` — Per-fold confusion matrices
+- `results/history_fold{1-5}_{mode}.png` — Per-fold training/validation loss curves
+- `results/cm_test_{mode}.png` — Test set confusion matrix
+- `results/roc_test_{mode}.png` — Test set ROC curves
+
+> The final test set is evaluated using the checkpoint and preprocessor from the best-performing fold (by validation macro F1), ensuring consistent feature scaling between training and test.
 
 ### Evaluation
 
@@ -215,7 +220,40 @@ Class probabilities:
 python train_baselines.py
 ```
 
-Trains Logistic Regression, Random Forest (300 trees), and XGBoost (300 trees) on tabular features only. Results saved to `results/baseline_results.csv`.
+Trains Logistic Regression, Random Forest (300 trees), and XGBoost (300 trees, `mlogloss`) on tabular features only. Results saved to `results/baseline_results.csv`.
+
+---
+
+## Results
+
+### Learning Curves
+
+*Training and validation loss/accuracy curves per fold will be added here after training.*
+
+<!-- Example:
+![Learning Curves Fold 1](results/history_fold1_multimodal.png)
+![Learning Curves Fold 2](results/history_fold2_multimodal.png)
+-->
+
+---
+
+### Confusion Matrix
+
+*Test set confusion matrix will be added here.*
+
+<!-- Example:
+![Confusion Matrix](results/cm_test_multimodal.png)
+-->
+
+---
+
+### ROC Curves
+
+*Per-class ROC curves (one-vs-rest) on the test set will be added here.*
+
+<!-- Example:
+![ROC Curves](results/roc_test_multimodal.png)
+-->
 
 ---
 
