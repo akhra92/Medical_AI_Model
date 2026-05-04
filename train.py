@@ -11,7 +11,6 @@ Runs N_FOLDS cross-validation, saves best checkpoints, prints per-fold metrics.
 
 import argparse
 import os
-import sys
 
 import numpy as np
 import pandas as pd

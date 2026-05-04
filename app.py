@@ -1,11 +1,10 @@
 """
 Streamlit demo for the Breast Cancer Ultrasound Classifier.
 
-Model: Multimodal EfficientNet-B3 + MLP (fold 3 checkpoint, 98.3% test accuracy)
+Model: Multimodal EfficientNet-B3 + MLP (fold 0 checkpoint, 97.7% val accuracy)
 Tabular branch: population-average clinical features (demo mode)
 """
 
-import io
 import os
 
 import numpy as np
@@ -14,9 +13,8 @@ from PIL import Image
 import streamlit as st
 
 from src.config import CLASSES
-from src.preprocessing.image_preprocessing import get_val_transforms, apply_mask
+from src.preprocessing.image_preprocessing import get_val_transforms
 from src.models.multimodal_model import build_model
-from src.training.trainer import get_device
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 
