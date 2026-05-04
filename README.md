@@ -1,7 +1,5 @@
 # Medical Image AI
-
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://YOUR-APP.streamlit.app)
-
+[Live Demo Here](https://medicalaimodel.streamlit.app/)
 A multimodal breast cancer classification system that fuses ultrasound imaging with clinical and molecular tabular data to predict whether a case is **benign**, **malignant**, or **normal**.
 
 ---
@@ -311,10 +309,6 @@ Each fold and the final test set are evaluated on:
 
 ---
 
-## Streamlit Demo
-
-A live interactive demo is available on Streamlit Cloud (badge at the top of this README).
-
 ### Running the demo locally
 
 ```bash
@@ -322,18 +316,6 @@ streamlit run app.py
 ```
 
 Open [http://localhost:8501](http://localhost:8501) in your browser. No dataset required — three built-in example images (benign, malignant, normal) are bundled in `demo_images/`.
-
-### Deploying to Streamlit Cloud
-
-1. Push the repository to GitHub — make sure these files are included:
-   - `checkpoints/best_fold3_multimodal.pt` (~43 MB)
-   - `results/tabular_preprocessor.pkl`
-   - `demo_assets/mean_tabular.npy`
-   - `demo_images/` (3 PNG files)
-2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app**
-3. Connect your GitHub repository
-4. Set **Main file path** to `app.py`
-5. Deploy — once live, copy the URL and replace `YOUR-APP.streamlit.app` in the badge at the top of this README.
 
 > **Note:** The tabular branch of the model uses population-average clinical feature values in demo mode (the model was trained on METABRIC patient data that cannot be included publicly). Predictions are driven primarily by the ultrasound image.
 
