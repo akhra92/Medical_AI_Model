@@ -11,3 +11,6 @@ dataset
 __pycache__/
 *.pyc
 
+# Checpoint files
+checkpoints/
+

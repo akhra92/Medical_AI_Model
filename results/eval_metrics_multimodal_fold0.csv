@@ -1,0 +1,2 @@
+accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,roc_auc_macro,benign_f1,benign_precision,benign_recall,malignant_f1,malignant_precision,malignant_recall,normal_f1,normal_precision,normal_recall
+1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0

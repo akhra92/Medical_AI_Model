@@ -1,0 +1,2 @@
+accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,roc_auc_macro,benign_f1,benign_precision,benign_recall,malignant_f1,malignant_precision,malignant_recall,normal_f1,normal_precision,normal_recall
+0.9829059829059829,0.9839137645107794,0.9827486499128291,0.9901960784313726,0.978494623655914,1.0,0.9850746268656716,0.9705882352941176,1.0,0.9666666666666667,1.0,0.9354838709677419,1.0,1.0,1.0

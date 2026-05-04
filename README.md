@@ -238,34 +238,49 @@ Trains Logistic Regression, Random Forest (300 trees), and XGBoost (300 trees, `
 
 ---
 
+### Performance Summary
+
+**5-Fold Cross-Validation (multimodal mode):**
+
+| Metric | Mean | Std |
+|---|---|---|
+| Accuracy | 98.6% | ±1.2% |
+| Macro F1 | 98.7% | ±1.2% |
+| Weighted F1 | 98.6% | ±1.2% |
+| ROC-AUC (macro) | 99.9% | ±0.1% |
+
+**Held-Out Test Set (15%, 117 patients):**
+
+| Class | Precision | Recall | F1 |
+|---|---|---|---|
+| Benign | 97.1% | 100% | 98.5% |
+| Malignant | 100% | 93.5% | 96.7% |
+| Normal | 100% | 100% | 100% |
+| **Overall** | **Accuracy: 98.3%** | **Macro F1: 98.4%** | **AUC: 1.000** |
+
+---
+
 ### Learning Curves
 
-*Training and validation loss/accuracy curves per fold.*
+*Representative training curve (Fold 3) showing clean convergence with no overfitting.*
 
-<!-- Example:
-![Learning Curves Fold 1](results/history_fold1_multimodal.png)
-![Learning Curves Fold 2](results/history_fold2_multimodal.png)
--->
+![Learning Curves Fold 3](results/history_fold3_multimodal.png)
 
 ---
 
 ### Confusion Matrix
 
-*Test set confusion matrix will be added here.*
+*Test set confusion matrix (count and normalized). Only 2 malignant cases misclassified as benign.*
 
-<!-- Example:
 ![Confusion Matrix](results/cm_test_multimodal.png)
--->
 
 ---
 
 ### ROC Curves
 
-*Per-class ROC curves (one-vs-rest) on the test set will be added here.*
+*Per-class ROC curves (one-vs-rest) on the test set. All three classes achieve AUC = 1.000.*
 
-<!-- Example:
 ![ROC Curves](results/roc_test_multimodal.png)
--->
 
 ---
 
