@@ -205,15 +205,6 @@ python predict.py --image path/to/image.png --patient-id MB-1234 --mode multimod
 python predict.py --image-dir path/to/folder/ --mode image --fold 0
 ```
 
-**Example single-image output:**
-```
-Prediction: MALIGNANT
-Class probabilities:
-  benign      : 0.0234  ██
-  malignant   : 0.9412  ██████████████████████████████
-  normal      : 0.0354  ███
-```
-
 ### Baseline Comparison
 
 ```bash
