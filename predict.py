@@ -43,7 +43,7 @@ def load_model(mode: str, fold: int, tabular_input_dim: int) -> torch.nn.Module:
     ckpt_path = os.path.join(CHECKPOINT_DIR, f"best_fold{fold}_{mode}.pt")
     assert os.path.exists(ckpt_path), f"Checkpoint not found: {ckpt_path}"
     model = build_model(mode, tabular_input_dim=tabular_input_dim, pretrained=False)
-    state = torch.load(ckpt_path, map_location="cpu")
+    state = torch.load(ckpt_path, map_location="cpu", weights_only=True)
     model.load_state_dict(state)
     model.eval()
     return model
@@ -101,7 +101,7 @@ def main():
 
     def get_tabular_tensor(patient_id):
         if preprocessor is None or patient_id is None:
-            return torch.zeros(1, tabular_input_dim)
+            return torch.zeros(1, tabular_input_dim, dtype=torch.float32)
         df = load_tabular_data()
         row = df[df["Patient ID"] == patient_id]
         if row.empty:
@@ -135,8 +135,9 @@ def main():
             img_tensor = preprocess_image(img_path)
             try:
                 tab_tensor = get_tabular_tensor(pid)
-            except ValueError:
-                tab_tensor = torch.zeros(1, tabular_input_dim)
+            except ValueError as e:
+                print(f"  WARNING: {e} — using zero tabular vector", file=sys.stderr)
+                tab_tensor = torch.zeros(1, tabular_input_dim, dtype=torch.float32)
             cls_name, proba = predict_single(model, img_tensor, tab_tensor, args.mode, device)
             proba_str = " ".join(f"{p:>10.4f}" for p in proba)
             print(f"  {pid:<13} {cls_name:<12} {proba_str}")

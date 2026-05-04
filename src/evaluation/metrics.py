@@ -49,7 +49,8 @@ def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray, y_proba: np.ndarray)
         metrics["roc_auc_macro"] = roc_auc_score(
             y_true, y_proba, multi_class="ovr", average="macro"
         )
-    except ValueError:
+    except ValueError as e:
+        print(f"  Warning: could not compute ROC-AUC ({e})")
         metrics["roc_auc_macro"] = float("nan")
 
     # Per-class metrics

@@ -49,7 +49,7 @@ def main():
     tabular_input_dim = data["full_preprocessor"].input_dim
 
     model = build_model(mode, tabular_input_dim=tabular_input_dim, pretrained=False)
-    state = torch.load(ckpt_path, map_location="cpu")
+    state = torch.load(ckpt_path, map_location="cpu", weights_only=True)
     model.load_state_dict(state)
 
     trainer = Trainer(model=model, mode=mode, fold=args.fold)

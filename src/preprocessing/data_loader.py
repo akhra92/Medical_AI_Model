@@ -209,9 +209,7 @@ def get_test_loader(data: dict, preprocessor: TabularPreprocessor, mode: str = "
     test_labels = data["test_labels"]
     image_registry = data["image_registry"]
 
-    # Re-transform test tabular with the fold's fitted preprocessor
-    test_df = data["train_val_df"].iloc[:0]  # empty template — handled via full_preprocessor
-    X_test_tab = data["test_X_tab"]          # already preprocessed by full_preprocessor
+    X_test_tab = data["test_X_tab"]   # preprocessed by full_preprocessor at prepare_data() time
 
     val_transform = get_val_transforms()
 
