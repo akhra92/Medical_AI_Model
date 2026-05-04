@@ -11,7 +11,9 @@ dataset
 __pycache__/
 *.pyc
 
-# Checkpoint files (exclude all except the fold 3 demo checkpoint)
-checkpoints/
-!checkpoints/best_fold0_multimodal.pt
+# Checkpoint files (track only fold 0 for the Streamlit demo; ignore the rest)
+checkpoints/best_fold1_multimodal.pt
+checkpoints/best_fold2_multimodal.pt
+checkpoints/best_fold3_multimodal.pt
+checkpoints/best_fold4_multimodal.pt
 
