@@ -48,6 +48,18 @@ def main():
     data = prepare_data(mode=mode)
     tabular_input_dim = data["full_preprocessor"].input_dim
 
+    # Load the fold-specific preprocessor saved during training.
+    # This must be used (not full_preprocessor) so the test set is transformed
+    # with statistics derived only from that fold's training split.
+    from src.config import RESULTS_DIR
+    from src.preprocessing.tabular_preprocessing import TabularPreprocessor
+    preprocessor_path = os.path.join(RESULTS_DIR, f"preprocessor_fold{args.fold}_{mode}.pkl")
+    assert os.path.exists(preprocessor_path), (
+        f"Fold preprocessor not found: {preprocessor_path}\n"
+        f"Run train.py first to generate it."
+    )
+    fold_preprocessor = TabularPreprocessor.load(preprocessor_path)
+
     model = build_model(mode, tabular_input_dim=tabular_input_dim, pretrained=False)
     state = torch.load(ckpt_path, map_location="cpu", weights_only=True)
     model.load_state_dict(state)
@@ -55,7 +67,7 @@ def main():
     trainer = Trainer(model=model, mode=mode, fold=args.fold)
 
     test_loader = get_test_loader(
-        data, preprocessor=data["full_preprocessor"],
+        data, preprocessor=fold_preprocessor,
         mode=mode, use_mask=use_mask,
     )
     y_true, y_pred, y_proba = trainer.predict(test_loader)
