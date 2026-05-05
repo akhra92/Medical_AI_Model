@@ -98,6 +98,9 @@ def main():
         fold_trainers.append(trainer)
         fold_preprocessors.append(preprocessor)
 
+        # Save fold preprocessor so evaluate.py can reload it without retraining
+        preprocessor.save(os.path.join(RESULTS_DIR, f"preprocessor_fold{fold}_{mode}.pkl"))
+
         # ── Plots ──────────────────────────────────────────────────────────
         plot_training_history(
             history, fold=fold+1, mode=mode,
