@@ -121,9 +121,9 @@ def prepare_data(mode: str = "multimodal") -> dict:
     # 1. Load tabular data
     df = load_tabular_data()
 
-    # 2. Fit tabular preprocessor on full data first (we'll re-fit per fold)
-    preprocessor_full = TabularPreprocessor()
-    X_tab_all, y_all, patient_ids_all = preprocessor_full.fit_transform(df)
+    # 2. Extract labels and patient IDs directly — no preprocessor needed yet
+    patient_ids_all = df["Patient ID"].tolist()
+    y_all = np.array([CLASS_TO_IDX[c] for c in df["class"]])
 
     # 3. Build image registry
     image_registry = build_image_registry()
@@ -136,11 +136,18 @@ def prepare_data(mode: str = "multimodal") -> dict:
 
     test_ids = [patient_ids_all[i] for i in test_idx]
     test_labels = y_all[test_idx]
-    test_X_tab = X_tab_all[test_idx]
+    # Store raw test DataFrame — will be transformed by the fold preprocessor
+    # in get_test_loader() to prevent data leakage from test statistics.
+    test_df = df.iloc[test_idx].reset_index(drop=True)
 
     train_val_ids = [patient_ids_all[i] for i in train_val_idx]
     train_val_labels = y_all[train_val_idx]
     train_val_df = df.iloc[train_val_idx].reset_index(drop=True)
+
+    # Fit reference preprocessor on train_val only — used solely to determine
+    # input_dim for model construction. Test set is NOT included here.
+    preprocessor_full = TabularPreprocessor()
+    preprocessor_full.fit_transform(train_val_df)
 
     return {
         "train_val_ids": train_val_ids,
@@ -148,7 +155,7 @@ def prepare_data(mode: str = "multimodal") -> dict:
         "train_val_df": train_val_df,
         "test_ids": test_ids,
         "test_labels": test_labels,
-        "test_X_tab": test_X_tab,
+        "test_df": test_df,
         "image_registry": image_registry,
         "full_preprocessor": preprocessor_full,
         "mode": mode,
