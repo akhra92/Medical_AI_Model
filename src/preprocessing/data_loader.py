@@ -211,12 +211,19 @@ def get_fold_loaders(
 
 
 def get_test_loader(data: dict, preprocessor: TabularPreprocessor, mode: str = "multimodal", use_mask: bool = True) -> DataLoader:
-    """Return DataLoader for the held-out test set."""
+    """Return DataLoader for the held-out test set.
+
+    Args:
+        preprocessor: The fold-specific preprocessor fitted on training data only.
+                      This prevents test statistics from leaking into preprocessing.
+    """
     test_ids = data["test_ids"]
     test_labels = data["test_labels"]
     image_registry = data["image_registry"]
 
-    X_test_tab = data["test_X_tab"]   # preprocessed by full_preprocessor at prepare_data() time
+    # Transform test set using the fold's preprocessor (fitted on training data only).
+    # This ensures no test-set statistics influence the scaler/encoders.
+    X_test_tab, _, _ = preprocessor.transform(data["test_df"])
 
     val_transform = get_val_transforms()
 
